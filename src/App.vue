@@ -2,10 +2,12 @@
 
   <div id="app">
     <!--导航栏，覆盖在主体上层-->
-    <Navigation class='navigation-component'/>
+    <Navigation class='navigation-component' />
 
     <!--页面主体内容-->
-    <router-view class='main-container'/>
+    <transition name="slide-fade" mode="out-in">
+      <router-view class='main-container' />
+    </transition>
 
     <!--底栏版权信息-->
     <Footer class='footer-container' />
@@ -27,10 +29,18 @@ export default {
 </script>
 <style lang="scss">
 
-/*a {*/
-  /*color: #FFF;*/
-  /*text-decoration: none;*/
-/*}*/
+.slide-fade-enter-active {
+  transition: all .2s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
 
 #app {
   width: 100vw;

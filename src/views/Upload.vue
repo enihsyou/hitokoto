@@ -129,7 +129,6 @@ export default {
   }
 
   .uploader-icon {
-    padding: 40%;
     font-size: 4em;
     color: #8c939d;
   }
@@ -139,5 +138,13 @@ export default {
 <style lang="scss">
 .el-textarea__inner {
   height: 100%;
+}
+
+.el-upload.el-upload--text{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
