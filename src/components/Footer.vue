@@ -18,6 +18,7 @@ export default {
 }
 
 #footer {
-  color: whitesmoke;
+  font-size: 0.6em;
+  color: #dedede;
 }
 </style>

@@ -34,6 +34,7 @@
 </template>
 
 <script>
+
 export default {
   name: "",
   data() {
@@ -65,6 +66,7 @@ $transition-duration: 600ms;
   flex-wrap: nowrap;
   width: 100%;
   color: #efefef;
+  pointer-events: auto;
 
   #draw-toggler {
     margin: 0.5em 0.75em;
@@ -139,7 +141,8 @@ $transition-duration: 600ms;
   top: 0;
   background-color: #1212127f;
   pointer-events: none;
-  transition-duration: $transition-duration;
+  transition-duration: $transition-duration * 2 / 3;
+
   &.is-visible {
     opacity: 1;
     pointer-events: auto;

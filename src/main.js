@@ -14,10 +14,10 @@ Vue.use(ElementUI, { locale });
 
 // FontAwesome 5
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faBars, faArrowAltCircleUp} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faArrowAltCircleUp, faHeart} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faBars, faArrowAltCircleUp);
+library.add(faBars, faArrowAltCircleUp, faHeart);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 import 'normalize.css'

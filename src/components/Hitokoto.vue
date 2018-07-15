@@ -1,71 +1,84 @@
 <template>
-  <div id="hitokoto" class="hitokoto-fullpage">
+  <div class="hitokoto">
     <div class="bracket left">『</div>
-    <div class="word" id="hitokoto_text">{{word}}</div>
+    <div class="sentence">{{sentence}}</div>
     <div class="bracket right">』</div>
-    <div class="author" id="hitokoto_author">-「{{author}}」</div>
+    <div class="author">-「{{author}}」</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Hitokoto',
-  data() {
-    return {
-      word: '一个人觉得寂寞，和另一个人相互依偎又有什么错',
-      author: '人渣的本愿',
-    };
-  },
+  name: "Hitokoto",
+  props: {
+    author: {
+      type: String,
+      required: true
+    },
+    sentence: {
+      type: String,
+      required: true
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
+@import '../variables';
+
 /* Hitokoto Page */
-.hitokoto-fullpage {
+.hitokoto {
   position: relative;
-  color: white;
-  z-index: 1;
-  margin: 35vh auto;
-
-  width: 60%;
+  font-size: 2rem;
+  color: $main-font-color;
 }
 
-.hitokoto-fullpage .bracket {
-  font-size: 30px;
-}
-
-.hitokoto-fullpage .bracket.left {
+.bracket {
+  font-size: 0.85em;
   position: absolute;
-  left: 0;
-  top: 0;
-}
 
-.hitokoto-fullpage .bracket.right {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
+  &.left {
+    left: 0;
+    top: 0;
+  }
 
-.hitokoto-fullpage .word {
-  font-size: 2.3rem;
-  text-align: center;
-  line-height: 50px;
-  word-break: normal;
-  margin: 0;
-  padding: 15px 50px;
-}
-
-.hitokoto-fullpage .author {
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.8);
-  float: right;
-  margin-top: 40px;
-}
-
-@media screen and (max-width: 600px)  {
-  .hitokoto-fullpage {
-    width: 90%;
-    margin-bottom: 10vh;
+  &.right {
+    right: 0;
+    bottom: 0;
   }
 }
+
+.sentence {
+  font-size: 1.15em;
+  text-align: center;
+  line-height: 1.25em;
+  word-break: normal;
+  margin: 0;
+  padding: 0.4em 1em;
+}
+
+.author {
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.7);
+  float: right;
+  margin-top: 1em;
+}
+
+/*.vertical {*/
+  /*writing-mode: vertical-lr;*/
+
+  /*.bracket {*/
+    /*&.left {*/
+      /*left: unset;*/
+      /*right: 0;*/
+      /*top: 0;*/
+    /*}*/
+    /*&.right {*/
+      /*left: 0;*/
+      /*right: unset;*/
+      /*bottom: 0;*/
+    /*}*/
+  /*}*/
+
+/*}*/
 </style>

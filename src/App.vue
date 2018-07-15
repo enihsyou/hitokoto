@@ -2,7 +2,7 @@
 
   <div id="app">
     <!--导航栏，覆盖在主体上层-->
-    <Navigation class='navigation-container'/>
+    <Navigation class='navigation-component'/>
 
     <!--页面主体内容-->
     <router-view class='main-container'/>
@@ -32,11 +32,12 @@ export default {
   background-color: dimgray;
 }
 
-.navigation-container {
+.navigation-component {
   position: absolute;
   height: 100%;
   width: 100%;
   z-index: 20;
+  pointer-events: none;
 }
 
 .main-container {
@@ -48,9 +49,11 @@ export default {
 
 .footer-container {
   position: fixed;
-  right: 0.8em;
-  bottom: 0.3em;
-  z-index: 30;
+  right: 0;
+  bottom: 0;
+  padding-right: 0.8em;
+  padding-bottom: 0.3em;
+  z-index: 11;
 }
 
 </style>
