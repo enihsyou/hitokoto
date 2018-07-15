@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Word from './views/Word'
+import Upload from './views/Upload'
 import About from './views/About.vue'
 import Login from './views/Login.vue'
 import Dashboard from './views/Dashboard'
@@ -13,6 +14,10 @@ export default new Router({
       path: '/',
       name: 'word',
       component: Word
+    }, {
+      path: '/upload',
+      name: 'upload',
+      component: Upload
     }, {
       path: '/about',
       name: 'about',

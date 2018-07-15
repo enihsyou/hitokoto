@@ -4,9 +4,13 @@
       <!-- Bars icon -->
       <font-awesome-icon id="draw-toggler" icon='bars' @click="toggleDrawer()" />
       <!-- Title -->
-      <span class="header-title">We Quote</span>
+      <router-link to='/' class='header-title'>
+        <span>We Quote</span>
+      </router-link>
       <!-- Upload icon-->
-      <font-awesome-icon id="draw-uploader" icon='arrow-alt-circle-up' @click="upload()" />
+      <router-link to='/upload'>
+        <font-awesome-icon id="draw-uploader" icon='arrow-alt-circle-up' />
+      </router-link>
     </div>
 
     <aside class='drawer' :class="{'is-visible': drawerOpened}">
@@ -14,6 +18,10 @@
       <span class="header-title">We Quote</span>
       <!-- Navigation -->
       <ul class="drawer-navigation">
+
+        <router-link to='/' class='navigation-link'>
+          <li>主页</li>
+        </router-link>
 
         <router-link to='/login' class='navigation-link'>
           <li>登录</li>
@@ -46,7 +54,6 @@ export default {
     toggleDrawer() {
       this.drawerOpened = !this.drawerOpened;
     },
-    upload() {}
   }
 };
 </script>
@@ -66,6 +73,7 @@ $transition-duration: 600ms;
   flex-wrap: nowrap;
   width: 100%;
   color: #efefef;
+  text-decoration: none;
   pointer-events: auto;
 
   #draw-toggler {
@@ -78,11 +86,14 @@ $transition-duration: 600ms;
     flex-grow: 1;
     padding-left: 0.25em;
     font-size: 2em;
+    text-decoration: inherit;
+    color: inherit;
   }
 
   #draw-uploader {
     margin: 0.5em 0.75em;
     font-size: 2em;
+    color: #efefef;
   }
 
 }

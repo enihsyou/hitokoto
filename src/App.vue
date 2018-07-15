@@ -9,6 +9,7 @@
 
     <!--底栏版权信息-->
     <Footer class='footer-container' />
+
   </div>
 
 </template>
@@ -26,10 +27,15 @@ export default {
 </script>
 <style lang="scss">
 
+/*a {*/
+  /*color: #FFF;*/
+  /*text-decoration: none;*/
+/*}*/
+
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: dimgray;
+  background-color: #454545;
 }
 
 .navigation-component {
@@ -44,6 +50,7 @@ export default {
   position: absolute;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
   z-index: 10;
 }
 
