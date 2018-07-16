@@ -3,12 +3,15 @@
     <div class="upper">
       <el-upload
           class="left uploader"
-          action=""
+          action="https://sm.ms/api/upload"
+          ref="upload"
+          name="smfile"
           :auto-upload="false"
           :show-file-list="false"
           :on-change="handleFileChange"
           :on-success="handleUploadSuccess"
           :before-upload="beforeUpload"
+          :http-request="networkUpload"
           accept="image/*">
         <img v-if="imageUrl" :src="imageUrl" class="image">
         <i v-else class="el-icon-plus uploader-icon"></i>
@@ -18,12 +21,13 @@
         <el-input v-model="author" placeholder="请输入作者" class="author-input"></el-input>
       </div>
     </div>
-    <el-button type="primary" plain class="commit-button">提交</el-button>
+    <el-button type="primary" plain class="commit-button" @click="commit">提交</el-button>
   </div>
 
 </template>
 
 <script>
+import { uploader } from "@/service/file-upload";
 
 export default {
   data() {
@@ -33,17 +37,20 @@ export default {
       imageUrl: "",
       sentence: "",
       author: "",
+
+      /*保存上传结果*/
+      uploaded: {}
     };
   },
   methods: {
-    handleFileChange(file,fileList){
+    handleFileChange(file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
-    handleUploadSuccess(res, file) {
-      this.$message({
-        message: '恭喜你，这是一条成功消息',
-        type: 'success'
-      });
+    handleUploadSuccess(file) {
+      this.$message.success("上传成功");
+    },
+    handleUploadFail(file) {
+      this.$message.error("上传失败")
     },
     beforeUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -56,6 +63,27 @@ export default {
         this.$message.error("上传图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    commit() {
+      let upload = this.$refs.upload;
+      if (upload.uploadFiles.length < 1) {
+        this.$message.error("未选择图片");
+        return;
+      }
+      upload.submit();
+    },
+    networkUpload(data) {
+      let formData = new FormData();
+      formData.append("smfile", data.file);
+      uploader(data.action, formData)
+          .then(x => {
+            console.log(x.data);
+            this.uploaded = x.data;
+            this.handleUploadSuccess(data.file)
+          })
+          .catch(x => {
+            this.handleUploadFail(data.file)
+          });
     }
   }
 };
@@ -140,7 +168,7 @@ export default {
   height: 100%;
 }
 
-.el-upload.el-upload--text{
+.el-upload.el-upload--text {
   height: 100%;
   width: 100%;
   display: flex;

@@ -3,8 +3,10 @@ import App from "./App.vue";
 
 import router from "./router";
 import store from "./store";
-import "./plugins/axios";
 import "./styles.scss";
+
+// Axios
+import "./plugins/axios";
 
 // Element UI
 import ElementUI from "element-ui";
@@ -20,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faBars, faArrowAltCircleUp, faHeart);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
+// Reset default browser css behaviors
 import 'normalize.css'
 
 Vue.config.productionTip = false;

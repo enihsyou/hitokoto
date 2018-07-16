@@ -4,11 +4,11 @@
       <!-- Bars icon -->
       <font-awesome-icon id="draw-toggler" icon='bars' @click="toggleDrawer()" />
       <!-- Title -->
-      <router-link to='/' class='header-title'>
+      <router-link to='/' class='header-title navigation-link'>
         <span>We Quote</span>
       </router-link>
       <!-- Upload icon-->
-      <router-link to='/upload'>
+      <router-link to='/upload' class="navigation-link">
         <font-awesome-icon id="draw-uploader" icon='arrow-alt-circle-up' />
       </router-link>
     </div>
@@ -17,7 +17,7 @@
       <!-- Title -->
       <span class="header-title">We Quote</span>
       <!-- Navigation -->
-      <ul class="drawer-navigation">
+      <ul class="drawer-navigation" @click="toggleDrawer()">
 
         <router-link to='/' class='navigation-link'>
           <li>主页</li>
@@ -27,11 +27,11 @@
           <li>登录</li>
         </router-link>
 
-        <router-link to='/login' class='navigation-link'>
+        <router-link to='/dashboard' class='navigation-link'>
           <li>用户</li>
         </router-link>
 
-        <router-link to='/login' class='navigation-link'>
+        <router-link to='/about' class='navigation-link'>
           <li>关于</li>
         </router-link>
 
@@ -53,7 +53,7 @@ export default {
   methods: {
     toggleDrawer() {
       this.drawerOpened = !this.drawerOpened;
-    },
+    }
   }
 };
 </script>
@@ -66,6 +66,11 @@ $transition-duration: 600ms;
 
 }
 
+.navigation-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .header-row {
   display: flex;
   flex-direction: row;
@@ -73,7 +78,6 @@ $transition-duration: 600ms;
   flex-wrap: nowrap;
   width: 100%;
   color: #efefef;
-  text-decoration: none;
   pointer-events: auto;
 
   #draw-toggler {
@@ -114,6 +118,8 @@ $transition-duration: 600ms;
 
   padding: 2em 3em;
 
+  pointer-events: auto;
+
   transform: translateY(-105%);
   transition-duration: $transition-duration;
   &.is-visible {
@@ -133,7 +139,6 @@ $transition-duration: 600ms;
     padding-left: 0;
 
     .navigation-link {
-      text-decoration: none;
       opacity: .87;
       color: #232323;
       font-size: 1.5em;
@@ -143,7 +148,7 @@ $transition-duration: 600ms;
 }
 
 .drawer-obfuscator {
-  z-index: 21;
+  z-index: 1;
   height: 100%;
   width: 100%;
   position: absolute;

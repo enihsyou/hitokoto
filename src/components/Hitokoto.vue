@@ -29,6 +29,7 @@ export default {
 /* Hitokoto Page */
 .hitokoto {
   position: relative;
+  /*设置这个组件基础的字体大小，里面的元素使用em，会相对这个根元素*/
   font-size: 2rem;
   color: $main-font-color;
 }
@@ -63,22 +64,4 @@ export default {
   float: right;
   margin-top: 1em;
 }
-
-/*.vertical {*/
-  /*writing-mode: vertical-lr;*/
-
-  /*.bracket {*/
-    /*&.left {*/
-      /*left: unset;*/
-      /*right: 0;*/
-      /*top: 0;*/
-    /*}*/
-    /*&.right {*/
-      /*left: 0;*/
-      /*right: unset;*/
-      /*bottom: 0;*/
-    /*}*/
-  /*}*/
-
-/*}*/
 </style>
