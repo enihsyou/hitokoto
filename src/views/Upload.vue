@@ -11,25 +11,44 @@
           :on-change="handleFileChange"
           :on-success="handleUploadSuccess"
           :before-upload="beforeUpload"
-          :http-request="networkUpload"
+          :http-request="handleNetworkUpload"
           accept="image/*">
-        <img v-if="imageUrl" :src="imageUrl" class="image">
-        <i v-else class="el-icon-plus uploader-icon"></i>
+        <img v-if="imageUrl"
+             :src="imageUrl"
+             class="image">
+        <i v-else
+           class="el-icon-plus uploader-icon"></i>
       </el-upload>
       <div class="right">
-        <el-input v-model="sentence" placeholder="请输入一段话" type="textarea" class="sentence-input"></el-input>
-        <el-input v-model="author" placeholder="请输入作者" class="author-input"></el-input>
+        <el-input
+            v-model="sentence"
+            placeholder="请输入一段话"
+            type="textarea"
+            class="sentence-input"
+            required></el-input>
+        <el-input
+            v-model="author"
+            placeholder="请输入作者"
+            class="author-input"
+            required></el-input>
       </div>
     </div>
-    <el-button type="primary" plain class="commit-button" @click="commit">提交</el-button>
+    <el-button type="primary"
+               plain
+               class="commit-button"
+               @click="commit">提交
+    </el-button>
   </div>
 
 </template>
 
 <script>
-import { uploader } from "@/service/file-upload";
+import store from "@/data/store";
+import { ADD_WORD } from "@/data/mutation-types";
+import { uploadForm } from "@/service/web-api";
 
 export default {
+  store,
   data() {
     return {
       // imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
@@ -39,19 +58,31 @@ export default {
       author: "",
 
       /*保存上传结果*/
-      uploaded: {}
+      /**@type {SmmsApiResponse}*/
+      uploaded: {},
+      file: File
     };
   },
   methods: {
     handleFileChange(file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
-    handleUploadSuccess(file) {
+    handleUploadSuccess() {
       this.$message.success("上传成功");
+      this.$store.commit(ADD_WORD, {
+        id: this.uploaded.timestamp,
+        author: this.author,
+        sentence: this.sentence,
+        imageUrl: this.uploaded.url,
+        likes: 0,
+        liked: false
+      });
     },
-    handleUploadFail(file) {
-      this.$message.error("上传失败")
+
+    handleUploadFail() {
+      this.$message.error("上传失败");
     },
+
     beforeUpload(file) {
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -64,32 +95,36 @@ export default {
       }
       return isJPG && isLt2M;
     },
+
     commit() {
-      let upload = this.$refs.upload;
-      if (upload.uploadFiles.length < 1) {
+      let uploader = this.$refs.upload;
+      if (uploader.uploadFiles.length < 1) {
         this.$message.error("未选择图片");
-        return;
+      } else if (this.author.trim().length === 0) {
+        this.$message.error("请填写作者");
+      } else if (this.sentence.trim().length === 0) {
+        this.$message.error("请填写句子");
+      } else {
+        uploader.submit();
       }
-      upload.submit();
     },
-    networkUpload(data) {
-      let formData = new FormData();
-      formData.append("smfile", data.file);
-      uploader(data.action, formData)
+
+    handleNetworkUpload(data) {
+      uploadForm(data.file)
           .then(x => {
-            console.log(x.data);
-            this.uploaded = x.data;
-            this.handleUploadSuccess(data.file)
+            this.uploaded = x;
+            this.handleUploadSuccess();
           })
           .catch(x => {
-            this.handleUploadFail(data.file)
+            this.handleUploadFail();
           });
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped
+       lang="scss">
 .container {
   display: flex;
   flex-direction: column;

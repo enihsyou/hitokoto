@@ -2,26 +2,41 @@
   <div id="word-container">
 
     <!--整个网页的背景图层-->
-    <div class='background' :style="{backgroundImage:`url(${word.imageUrl})`}"></div>
+    <div class='background'
+         :style="{backgroundImage:`url(${currentWord.imageUrl})`}"></div>
 
     <!--文字部分-->
     <div class="word-card">
-      <Hitokoto :author="word.author" :sentence="word.sentence" />
+      <Hitokoto :author="currentWord.author"
+                :sentence="currentWord.sentence" />
     </div>
 
-    <el-badge :value="word.likes" :max="99" class="like-badge">
-      <el-button circle class="like-button"
-                 :class="{animated}"
-                 @click="plusOne();">
+    <el-badge :value="currentWord.likes"
+              :max="99"
+              class="like-badge">
+      <el-button circle
+                 class="like-button"
+                 :class="{'animated': currentWord.liked}"
+                 @click="plusOne">
         <!--<font-awesome-icon icon='heart' />-->
       </el-button>
     </el-badge>
 
+    <el-button circle
+               class="next-button"
+               @click="switchToNextWord">
+      <font-awesome-icon icon='heart' />
+    </el-button>
   </div>
 </template>
 
 <script>
 import Hitokoto from "@/components/Hitokoto";
+import { mapGetters } from "vuex";
+import store from "@/data/store";
+import { ADD_WORD, LIKE_A_WORD, DISLIKE_A_WORD } from "@/data/mutation-types";
+
+import { getWordFromHitokotoApi } from "@/service/web-api";
 
 const switchInterval = 5000;
 
@@ -30,34 +45,48 @@ export default {
   components: {
     Hitokoto
   },
+  store,
   data() {
     return {
-      switchInterval,
-      animated: false,
-      word: {
-        id: 1,
-        author: "危险的操作",
-        sentence: "跌跌撞撞的成长，又美又疼才是本质。",
-        imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
-        likes: 1
-      }
+      currentWord: {}
     };
   },
   methods: {
     plusOne() {
-      if (this.animated) {
-        this.word.likes -= 1;
+      if (this.currentWord.liked) {
+        store.commit(DISLIKE_A_WORD, this.currentWord.id);
       } else {
-        this.word.likes += 1;
+        store.commit(LIKE_A_WORD, this.currentWord.id);
       }
+    },
+    switchToNextWord() {
+      this.currentWord = this.$store.getters.randomWord;
 
-      this.animated = !this.animated;
+      getWordFromHitokotoApi().then(hitokoto => {
+        let w = {
+          id: hitokoto.id,
+          author: hitokoto.creator,
+          sentence: hitokoto.hitokoto,
+          imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
+          likes: Math.floor(Math.random() * 120),
+          liked: false
+        };
+        store.commit(ADD_WORD, w);
+      });
     }
+  },
+  mounted() {
+    this.switchToNextWord();
   }
+  // computed: mapGetters({
+  //   /**@type {HitokotoWord|string}*/
+  //   currentWord: "randomWord"
+  // })
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped
+       lang="scss">
 
 @keyframes bounce {
   from, 20%, 53%, 80%, to {
@@ -143,5 +172,9 @@ export default {
   }
 }
 
-
+.next-button {
+  position: absolute;
+  right: 2em;
+  bottom: 3em;
+}
 </style>
