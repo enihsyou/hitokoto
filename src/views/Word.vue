@@ -33,7 +33,6 @@
 <script>
 import Hitokoto from "@/components/Hitokoto";
 import { mapGetters } from "vuex";
-import store from "@/data/store";
 import { ADD_WORD, LIKE_A_WORD, DISLIKE_A_WORD } from "@/data/mutation-types";
 
 import { getWordFromHitokotoApi } from "@/service/web-api";
@@ -45,18 +44,24 @@ export default {
   components: {
     Hitokoto
   },
-  store,
-  data() {
-    return {
-      currentWord: {}
-    };
-  },
+  // data() {
+  //   return {
+  //     currentWord:{
+  //       id: 0,
+  //       author: "",
+  //       sentence: "",
+  //       imageUrl: "",
+  //       likes: 0,
+  //       liked: false
+  //     },
+  //   };
+  // },
   methods: {
     plusOne() {
       if (this.currentWord.liked) {
-        store.commit(DISLIKE_A_WORD, this.currentWord.id);
+        this.$store.commit(DISLIKE_A_WORD, this.currentWord.id);
       } else {
-        store.commit(LIKE_A_WORD, this.currentWord.id);
+        this.$store.commit(LIKE_A_WORD, this.currentWord.id);
       }
     },
     switchToNextWord() {
@@ -71,17 +76,17 @@ export default {
           likes: Math.floor(Math.random() * 120),
           liked: false
         };
-        store.commit(ADD_WORD, w);
+        this.$store.commit(ADD_WORD, w);
       });
     }
   },
-  mounted() {
-    this.switchToNextWord();
-  }
-  // computed: mapGetters({
-  //   /**@type {HitokotoWord|string}*/
-  //   currentWord: "randomWord"
-  // })
+  // mounted() {
+  //   this.currentWord = this.$store.getters.randomWord;
+  // },
+  computed: mapGetters({
+    /**@type {HitokotoWord|string}*/
+    currentWord: "randomWord"
+  }),
 };
 </script>
 

@@ -24,7 +24,7 @@ export default {
   components: {
     Navigation,
     Footer
-  }
+  },
 };
 </script>
 <style lang="scss">

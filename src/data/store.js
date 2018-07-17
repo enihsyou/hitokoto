@@ -29,22 +29,6 @@ export default new Vuex.Store({
         likes: 87,
         liked: false
       },
-      {
-        id: 2,
-        author: "危险的sdfg操作",
-        sentence: "跌跌fsdgdsfg撞撞的成长，又美又疼才是本质。",
-        imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
-        likes: 8,
-        liked: false
-      },
-      {
-        id: 3,
-        author: "危险fdg的sdfg操作",
-        sentence: "3244324跌跌fsdgdsfg撞撞的成长，又美又疼才是本质。",
-        imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
-        likes: 1,
-        liked: true
-      }
     ]
   },
   mutations: {
@@ -69,7 +53,7 @@ export default new Vuex.Store({
   getters: {
     /**@return {HitokotoWord}*/
     randomWord: state => {
-      return state.words[Math.floor(Math.random() * state.words.length)];
+      return state.words[state.words.length - 1];
     },
     likedWords: state => {
       return state.words.filter(word => word.liked);

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ADD_WORD } from "@/data/mutation-types";
 
 /**
  * @typedef {Object} SmmsApiResponse
@@ -52,4 +53,20 @@ function getWordFromHitokotoApi() {
       .then(response => response.data); // https://github.com/axios/axios#response-schema
 }
 
-export { uploadForm, getWordFromHitokotoApi };
+function populateStoreWithHitokotoApi(store) {
+   axios.get("https://v1.hitokoto.cn")
+      .then(response => response.data)
+      .then(hitokoto => {
+    let w = {
+      id: hitokoto.id,
+      author: hitokoto.creator,
+      sentence: hitokoto.hitokoto,
+      imageUrl: "https://piccdn.freejishu.com/images/2016/04/04/pixiv51081070.png",
+      likes: Math.floor(Math.random() * 120),
+      liked: false
+    };
+    store.commit(ADD_WORD, w);
+  });
+}
+
+export { uploadForm, getWordFromHitokotoApi , populateStoreWithHitokotoApi};

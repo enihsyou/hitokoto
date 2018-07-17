@@ -1,9 +1,12 @@
+import { populateStoreWithHitokotoApi } from "@/service/web-api";
 import Vue from "vue";
 import App from "./App.vue";
 
 import router from "./router";
-import store from "./data/store";
 
+// Vuex
+import store from "./data/store";
+populateStoreWithHitokotoApi(store);
 // Axios
 import "./plugins/axios";
 

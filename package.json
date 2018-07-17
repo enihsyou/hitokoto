@@ -22,8 +22,6 @@
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-prettier": "^3.0.0-rc.3",
     "axios": "^0.18.0",
-    "compass": "^0.1.1",
-    "compass-mixins": "^0.12.10",
     "node-sass": "^4.9.0",
     "normalize.css": "^8.0.0",
     "sass-loader": "^7.0.1",
